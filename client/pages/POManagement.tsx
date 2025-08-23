@@ -234,7 +234,7 @@ Cylinder Inventory Portal`);
                     <SelectValue placeholder="All vendors" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All vendors</SelectItem>
+                    <SelectItem value="all">All vendors</SelectItem>
                     {vendors.map(vendor => (
                       <SelectItem key={vendor} value={vendor}>{vendor}</SelectItem>
                     ))}
@@ -249,7 +249,7 @@ Cylinder Inventory Portal`);
                     <SelectValue placeholder="All statuses" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All statuses</SelectItem>
+                    <SelectItem value="all">All statuses</SelectItem>
                     <SelectItem value="Draft">Draft</SelectItem>
                     <SelectItem value="Sent to Vendor">Sent to Vendor</SelectItem>
                     <SelectItem value="Confirmed">Confirmed</SelectItem>
