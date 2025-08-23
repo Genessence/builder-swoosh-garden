@@ -120,6 +120,7 @@ export default function POManagement() {
   const [pos, setPOs] = useState<PurchaseOrder[]>(mockPOs);
   const [selectedPO, setSelectedPO] = useState<PurchaseOrder | null>(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [vendorFilter, setVendorFilter] = useState("all");
