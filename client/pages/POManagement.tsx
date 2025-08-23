@@ -486,6 +486,142 @@ Cylinder Inventory Portal`);
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {/* View PO Details Modal */}
+        <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center">
+                <Eye className="w-5 h-5 mr-2" />
+                Purchase Order Details
+              </DialogTitle>
+              <DialogDescription>
+                Complete information for {selectedPO?.id}
+              </DialogDescription>
+            </DialogHeader>
+
+            {selectedPO && (
+              <div className="space-y-6">
+                {/* Basic Information */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">PO Number</Label>
+                      <p className="text-lg font-semibold">{selectedPO.id}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Vendor</Label>
+                      <p className="flex items-center mt-1">
+                        <Building className="w-4 h-4 mr-2 text-gray-400" />
+                        {selectedPO.vendor}
+                      </p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Items</Label>
+                      <p className="flex items-center mt-1">
+                        <Package className="w-4 h-4 mr-2 text-gray-400" />
+                        {selectedPO.items}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Status</Label>
+                      <div className="mt-1">
+                        <Badge className={getStatusColor(selectedPO.status)}>
+                          {selectedPO.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Quantity</Label>
+                      <p className="text-lg font-semibold">{selectedPO.quantity}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Total Amount</Label>
+                      <p className="text-lg font-semibold text-green-600">
+                        ${selectedPO.total.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Details */}
+                <div className="border-t pt-4 space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Order Date</Label>
+                    <p className="flex items-center mt-1">
+                      <Calendar className="w-4 h-4 mr-2 text-gray-400" />
+                      {new Date(selectedPO.date).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Description</Label>
+                    <p className="text-sm text-gray-700 mt-1 p-3 bg-gray-50 rounded-lg">
+                      {selectedPO.description}
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Vendor Contact</Label>
+                    <p className="text-sm text-gray-700 mt-1">
+                      <Mail className="w-4 h-4 inline mr-2 text-gray-400" />
+                      {selectedPO.vendorEmail}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Timeline Information */}
+                <div className="border-t pt-4">
+                  <Label className="text-sm font-medium text-gray-500">Timeline</Label>
+                  <div className="mt-2 space-y-2">
+                    <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
+                      <span className="text-sm">Order Created</span>
+                      <span className="text-sm font-medium">{new Date(selectedPO.date).toLocaleDateString()}</span>
+                    </div>
+                    {selectedPO.status === "Delivered" && (
+                      <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                        <span className="text-sm">Delivered</span>
+                        <span className="text-sm font-medium">Completed</span>
+                      </div>
+                    )}
+                    {selectedPO.status === "Sent to Vendor" && (
+                      <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
+                        <span className="text-sm">Expected Delivery</span>
+                        <span className="text-sm font-medium">
+                          {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsViewModalOpen(false)}>
+                Close
+              </Button>
+              <Button
+                onClick={() => {
+                  setIsViewModalOpen(false);
+                  selectedPO && handleEmailVendor(selectedPO);
+                }}
+                className="bg-industrial-warning hover:bg-industrial-warning/90"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Email Vendor
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
