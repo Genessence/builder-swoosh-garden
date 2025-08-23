@@ -313,12 +313,12 @@ Cylinder Inventory Portal`);
                         </TableCell>
                         <TableCell>
                           <div className="flex space-x-2">
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="ghost"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setSelectedPO(po);
+                                handleViewPO(po);
                               }}
                             >
                               <Eye className="w-4 h-4" />
