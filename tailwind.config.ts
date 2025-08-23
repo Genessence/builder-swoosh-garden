@@ -57,6 +57,14 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Industrial theme colors
+        industrial: {
+          navy: "hsl(var(--industrial-navy))",
+          panel: "hsl(var(--industrial-panel))",
+          success: "hsl(var(--industrial-success))",
+          error: "hsl(var(--industrial-error))",
+          warning: "hsl(var(--industrial-warning))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
