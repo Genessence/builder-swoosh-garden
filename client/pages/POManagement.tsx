@@ -122,8 +122,8 @@ export default function POManagement() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [vendorFilter, setVendorFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
+  const [vendorFilter, setVendorFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [emailSubject, setEmailSubject] = useState("");
   const [emailBody, setEmailBody] = useState("");
 
