@@ -141,9 +141,9 @@ export default function POManagement() {
     const matchesSearch = po.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          po.vendor.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          po.items.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesVendor = !vendorFilter || po.vendor === vendorFilter;
-    const matchesStatus = !statusFilter || po.status === statusFilter;
-    
+    const matchesVendor = !vendorFilter || vendorFilter === "all" || po.vendor === vendorFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || po.status === statusFilter;
+
     return matchesSearch && matchesVendor && matchesStatus;
   });
 
