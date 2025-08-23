@@ -159,6 +159,11 @@ export default function POManagement() {
     }
   };
 
+  const handleViewPO = (po: PurchaseOrder) => {
+    setSelectedPO(po);
+    setIsViewModalOpen(true);
+  };
+
   const handleEmailVendor = (po: PurchaseOrder) => {
     setEmailSubject(`PO Confirmation - ${po.id}`);
     setEmailBody(`Dear ${po.vendor},
