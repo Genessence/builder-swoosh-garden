@@ -588,7 +588,11 @@ export default function MaterialInward() {
                     </TableCell>
                     <TableCell>{new Date(record.date).toLocaleDateString()}</TableCell>
                     <TableCell>
-                      <Button size="sm" variant="ghost">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleViewInwardDetails(record)}
+                      >
                         <Eye className="w-4 h-4" />
                       </Button>
                     </TableCell>
