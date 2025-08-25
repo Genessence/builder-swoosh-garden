@@ -404,9 +404,36 @@ Manufacturing Operations Team`);
                         <TableCell>{po.items}</TableCell>
                         <TableCell>{po.quantity}</TableCell>
                         <TableCell>
-                          <Badge className={getStatusColor(po.status)}>
-                            {po.status}
-                          </Badge>
+                          <div className="space-y-1">
+                            <Badge className={getStatusColor(po.status)}>
+                              {po.status}
+                            </Badge>
+                            {po.status === "Sent to Vendor" && (() => {
+                              const responseStatus = getResponseStatus(po);
+                              if (responseStatus) {
+                                return (
+                                  <div className={`text-xs px-2 py-1 rounded ${
+                                    responseStatus.isOverdue
+                                      ? 'bg-red-100 text-red-800'
+                                      : responseStatus.hoursRemaining <= 24
+                                        ? 'bg-yellow-100 text-yellow-800'
+                                        : 'bg-green-100 text-green-800'
+                                  }`}>
+                                    {responseStatus.isOverdue
+                                      ? 'Overdue'
+                                      : `${responseStatus.hoursRemaining}h left`
+                                    }
+                                  </div>
+                                );
+                              }
+                              return null;
+                            })()}
+                            {po.vendorConfirmedAt && (
+                              <div className="text-xs text-green-600">
+                                ✓ Confirmed via {po.confirmationMethod}
+                              </div>
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex space-x-1">
