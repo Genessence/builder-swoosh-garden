@@ -108,6 +108,8 @@ interface FormData {
 export default function MaterialInward() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isRfidModalOpen, setIsRfidModalOpen] = useState(false);
+  const [isViewInwardModalOpen, setIsViewInwardModalOpen] = useState(false);
+  const [selectedInwardRecord, setSelectedInwardRecord] = useState<typeof mockInwardHistory[0] | null>(null);
   const [newRfidTag, setNewRfidTag] = useState("");
   const [formData, setFormData] = useState<FormData>({
     truckId: "",
