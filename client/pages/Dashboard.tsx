@@ -203,21 +203,50 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          {/* Notifications Panel */}
+          {/* Notification Analytics */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <AlertTriangle className="w-5 h-5 mr-2" />
-                Notifications
+                Notification Analytics
               </CardTitle>
+              <CardDescription>Alert distribution and resolution trends</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {notifications.map((notification, index) => (
-                  <div key={index} className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-sm text-yellow-800">{notification}</p>
-                  </div>
-                ))}
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={notificationAnalytics}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ category, count, percent }) => `${category}: ${count} (${(percent * 100).toFixed(0)}%)`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="count"
+                  >
+                    {notificationAnalytics.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+
+              {/* Summary Stats */}
+              <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                <div className="text-center p-2 bg-blue-50 rounded">
+                  <p className="font-semibold text-blue-800">Total Alerts</p>
+                  <p className="text-xl font-bold text-blue-600">
+                    {notificationAnalytics.reduce((sum, item) => sum + item.count, 0)}
+                  </p>
+                </div>
+                <div className="text-center p-2 bg-green-50 rounded">
+                  <p className="font-semibold text-green-800">This Week</p>
+                  <p className="text-xl font-bold text-green-600">
+                    {weeklyNotificationTrend.reduce((sum, day) => sum + day.alerts, 0)}
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
