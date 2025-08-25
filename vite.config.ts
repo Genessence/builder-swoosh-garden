@@ -3,9 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { createServer } from "./server";
 
-export default defineConfig(({ mode }) => ({
-  root: path.resolve(__dirname, "client"),
-  publicDir: path.resolve(__dirname, "public"),
+export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
@@ -15,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: path.resolve(__dirname, "dist/spa"),
+    outDir: "dist/spa", // ✅ correct build folder
     emptyOutDir: true,
   },
   plugins: [react(), expressPlugin()],
