@@ -90,6 +90,40 @@ const detailedNotifications = [
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState(detailedNotifications);
+
+  const unreadCount = notifications.filter(n => n.unread).length;
+
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case "po": return <FileText className="w-4 h-4" />;
+      case "quality": return <Settings className="w-4 h-4" />;
+      case "inventory": return <Package className="w-4 h-4" />;
+      case "system": return <Settings className="w-4 h-4" />;
+      case "maintenance": return <Settings className="w-4 h-4" />;
+      default: return <Bell className="w-4 h-4" />;
+    }
+  };
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case "high": return "border-l-red-500 bg-red-50";
+      case "medium": return "border-l-yellow-500 bg-yellow-50";
+      case "low": return "border-l-green-500 bg-green-50";
+      default: return "border-l-gray-500 bg-gray-50";
+    }
+  };
+
+  const markAsRead = (id: number) => {
+    setNotifications(prev =>
+      prev.map(n => n.id === id ? { ...n, unread: false } : n)
+    );
+  };
+
+  const markAllAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+  };
 
   return (
     <div className="min-h-screen bg-industrial-panel">
