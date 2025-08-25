@@ -208,11 +208,71 @@ Cylinder Inventory Portal`);
   };
 
   const handleSendEmail = () => {
+    if (!selectedPO) return;
+
+    // Update PO with email sent timestamp and expected response
+    const updatedPO = {
+      ...selectedPO,
+      status: "Sent to Vendor" as const,
+      emailSentAt: new Date().toISOString(),
+      expectedResponseBy: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString() // 2 days
+    };
+
+    setPOs(prev => prev.map(po => po.id === selectedPO.id ? updatedPO : po));
+
     // In real app, would send email via API
-    console.log("Sending email:", { emailSubject, emailBody, to: selectedPO?.vendorEmail });
+    console.log("Sending email:", { emailSubject, emailBody, to: selectedPO.vendorEmail });
     setIsEmailModalOpen(false);
     setEmailSubject("");
     setEmailBody("");
+  };
+
+  const handleManualConfirm = (po: PurchaseOrder) => {
+    setSelectedPO(po);
+    setConfirmationMethod("Manual");
+    setVendorResponse("");
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleGeneratePortalLink = (po: PurchaseOrder) => {
+    // Generate unique confirmation link
+    const confirmationLink = `https://vendor-portal.company.com/confirm/${po.id}?token=${btoa(po.id + po.vendorEmail)}`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(confirmationLink);
+
+    // In real app, would also send this link via email or SMS
+    console.log("Generated vendor portal link:", confirmationLink);
+    alert("Vendor confirmation link copied to clipboard!");
+  };
+
+  const handleVendorConfirmation = () => {
+    if (!selectedPO) return;
+
+    const updatedPO = {
+      ...selectedPO,
+      status: "Confirmed" as const,
+      vendorConfirmedAt: new Date().toISOString(),
+      confirmationMethod,
+      vendorResponse: vendorResponse || "Confirmed via " + confirmationMethod.toLowerCase()
+    };
+
+    setPOs(prev => prev.map(po => po.id === selectedPO.id ? updatedPO : po));
+
+    setIsConfirmModalOpen(false);
+    setVendorResponse("");
+    setSelectedPO(null);
+  };
+
+  const getResponseStatus = (po: PurchaseOrder) => {
+    if (!po.emailSentAt || !po.expectedResponseBy) return null;
+
+    const now = new Date();
+    const expectedBy = new Date(po.expectedResponseBy);
+    const isOverdue = now > expectedBy && po.status === "Sent to Vendor";
+    const hoursRemaining = Math.ceil((expectedBy.getTime() - now.getTime()) / (1000 * 60 * 60));
+
+    return { isOverdue, hoursRemaining };
   };
 
   return (
