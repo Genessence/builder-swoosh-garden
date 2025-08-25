@@ -187,7 +187,9 @@ export default function POManagement() {
   };
 
   const handleEmailVendor = (po: PurchaseOrder) => {
-    setEmailSubject(`PO Confirmation - ${po.id}`);
+    const confirmationLink = `https://vendor-portal.company.com/confirm/${po.id}?token=${btoa(po.id + po.vendorEmail)}`;
+
+    setEmailSubject(`PO Confirmation Required - ${po.id}`);
     setEmailBody(`Dear ${po.vendor},
 
 Please confirm receipt and acceptance of the following purchase order:
@@ -200,10 +202,23 @@ Expected Delivery: ${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDate
 
 Description: ${po.description}
 
+**CONFIRMATION REQUIRED:**
+Please respond within 48 hours using one of these methods:
+
+1. **Online Confirmation (Recommended):**
+   Click here to confirm: ${confirmationLink}
+
+2. **Email Reply:**
+   Simply reply to this email with "CONFIRMED" and expected delivery date
+
+3. **Phone Confirmation:**
+   Call us at +1-555-CYLINDER (1-555-295-4633)
+
 Please confirm the order and provide expected delivery timeline.
 
 Best regards,
-Cylinder Inventory Portal`);
+Cylinder Inventory Portal
+Manufacturing Operations Team`);
     setIsEmailModalOpen(true);
   };
 
