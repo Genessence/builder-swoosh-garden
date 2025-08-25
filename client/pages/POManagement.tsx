@@ -71,10 +71,12 @@ const mockPOs: PurchaseOrder[] = [
     date: "2024-01-15",
     total: 2500,
     description: "High-pressure CO2 cylinders for production line A",
-    vendorEmail: "orders@abcindustrial.com"
+    vendorEmail: "orders@abcindustrial.com",
+    emailSentAt: "2024-01-17T09:30:00",
+    expectedResponseBy: "2024-01-19T17:00:00"
   },
   {
-    id: "PO-2024-002", 
+    id: "PO-2024-002",
     vendor: "XYZ Gas Solutions",
     items: "Argon Cylinders",
     quantity: 8,
@@ -82,12 +84,17 @@ const mockPOs: PurchaseOrder[] = [
     date: "2024-01-14",
     total: 3200,
     description: "Pure argon cylinders for welding operations",
-    vendorEmail: "sales@xyzgas.com"
+    vendorEmail: "sales@xyzgas.com",
+    emailSentAt: "2024-01-16T14:20:00",
+    expectedResponseBy: "2024-01-18T17:00:00",
+    vendorConfirmedAt: "2024-01-17T10:15:00",
+    confirmationMethod: "Email",
+    vendorResponse: "Order confirmed. Expected delivery: Jan 25th. Thank you!"
   },
   {
     id: "PO-2024-003",
     vendor: "Industrial Air Supply",
-    items: "Oxygen Cylinders", 
+    items: "Oxygen Cylinders",
     quantity: 15,
     status: "Draft",
     date: "2024-01-13",
@@ -104,7 +111,12 @@ const mockPOs: PurchaseOrder[] = [
     date: "2024-01-12",
     total: 6000,
     description: "CO2, Argon, and Oxygen cylinder package",
-    vendorEmail: "orders@abcindustrial.com"
+    vendorEmail: "orders@abcindustrial.com",
+    emailSentAt: "2024-01-14T11:00:00",
+    expectedResponseBy: "2024-01-16T17:00:00",
+    vendorConfirmedAt: "2024-01-15T08:30:00",
+    confirmationMethod: "Phone",
+    vendorResponse: "Order confirmed via phone call. Delivered on schedule."
   },
   {
     id: "PO-2024-005",
@@ -115,7 +127,9 @@ const mockPOs: PurchaseOrder[] = [
     date: "2024-01-11",
     total: 3000,
     description: "Cancelled due to quality issues",
-    vendorEmail: "orders@premiumgas.com"
+    vendorEmail: "orders@premiumgas.com",
+    emailSentAt: "2024-01-13T16:45:00",
+    expectedResponseBy: "2024-01-15T17:00:00"
   }
 ];
 
