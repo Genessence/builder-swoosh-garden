@@ -772,6 +772,69 @@ Manufacturing Operations Team`);
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {/* Vendor Confirmation Modal */}
+        <Dialog open={isConfirmModalOpen} onOpenChange={setIsConfirmModalOpen}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center text-green-600">
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Vendor Confirmation
+              </DialogTitle>
+              <DialogDescription>
+                Record vendor confirmation for {selectedPO?.id}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-4">
+              <div>
+                <Label>Confirmation Method</Label>
+                <Select value={confirmationMethod} onValueChange={(value: any) => setConfirmationMethod(value)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Manual">Manual Entry</SelectItem>
+                    <SelectItem value="Phone">Phone Call</SelectItem>
+                    <SelectItem value="Email">Email Reply</SelectItem>
+                    <SelectItem value="Portal">Vendor Portal</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Vendor Response (Optional)</Label>
+                <Textarea
+                  value={vendorResponse}
+                  onChange={(e) => setVendorResponse(e.target.value)}
+                  placeholder="Enter vendor's response or delivery timeline..."
+                  className="min-h-[100px]"
+                />
+              </div>
+
+              {selectedPO && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <h4 className="font-medium text-green-800 mb-2">Confirming:</h4>
+                  <div className="text-sm text-green-700">
+                    <p><strong>{selectedPO.id}</strong> - {selectedPO.vendor}</p>
+                    <p>{selectedPO.items} (Qty: {selectedPO.quantity})</p>
+                    <p>Amount: ${selectedPO.total.toLocaleString()}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsConfirmModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleVendorConfirmation} className="bg-industrial-success hover:bg-industrial-success/90">
+                <CheckCircle className="w-4 h-4 mr-2" />
+                Confirm Order
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
