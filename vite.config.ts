@@ -15,6 +15,7 @@ export default defineConfig(() => ({
   build: {
     outDir: "dist/spa", // ✅ correct build folder
     emptyOutDir: true,
+    assetsDir: "assets",
   },
   plugins: [react(), expressPlugin()],
   resolve: {
