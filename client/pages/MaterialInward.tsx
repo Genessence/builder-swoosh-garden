@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { 
-  Truck, 
-  Scale, 
-  FileCheck, 
-  ClipboardCheck, 
-  Zap, 
+import {
+  Truck,
+  Scale,
+  FileCheck,
+  ClipboardCheck,
+  Zap,
   CheckCircle2,
   Camera,
   Upload,
@@ -14,7 +14,8 @@ import {
   Package,
   AlertCircle,
   X,
-  Save
+  Save,
+  Building
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
