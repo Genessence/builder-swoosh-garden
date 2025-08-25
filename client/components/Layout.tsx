@@ -178,12 +178,82 @@ export default function Layout({ children }: LayoutProps) {
           {/* Right Section */}
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <Button variant="ghost" size="sm" className="relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-industrial-error text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                3
-              </span>
-            </Button>
+            <Popover open={isNotificationOpen} onOpenChange={setIsNotificationOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="relative">
+                  <Bell className="w-5 h-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-industrial-error text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-0" align="end">
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold text-lg">Notifications</h3>
+                    {unreadCount > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={markAllAsRead}
+                        className="text-xs"
+                      >
+                        Mark all read
+                      </Button>
+                    )}
+                  </div>
+
+                  <ScrollArea className="h-80">
+                    <div className="space-y-2">
+                      {notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className={`p-3 rounded-lg border-l-4 cursor-pointer transition-colors hover:bg-gray-50 ${
+                            getPriorityColor(notification.priority)
+                          } ${notification.unread ? 'bg-opacity-100' : 'bg-opacity-50'}`}
+                          onClick={() => markAsRead(notification.id)}
+                        >
+                          <div className="flex items-start space-x-3">
+                            <div className="flex-shrink-0 mt-1">
+                              {getNotificationIcon(notification.type)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <p className={`text-sm font-medium truncate ${
+                                  notification.unread ? 'text-gray-900' : 'text-gray-600'
+                                }`}>
+                                  {notification.title}
+                                </p>
+                                {notification.unread && (
+                                  <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 ml-2"></div>
+                                )}
+                              </div>
+                              <p className={`text-xs mt-1 ${
+                                notification.unread ? 'text-gray-700' : 'text-gray-500'
+                              }`}>
+                                {notification.message}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-2">
+                                {notification.timestamp}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+
+                  {notifications.length === 0 && (
+                    <div className="text-center py-8 text-gray-500">
+                      <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No notifications</p>
+                    </div>
+                  )}
+                </div>
+              </PopoverContent>
+            </Popover>
 
             {/* User Profile Button */}
             <Button variant="ghost" className="flex items-center space-x-2">
