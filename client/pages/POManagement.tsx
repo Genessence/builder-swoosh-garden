@@ -54,6 +54,11 @@ interface PurchaseOrder {
   total: number;
   description: string;
   vendorEmail: string;
+  emailSentAt?: string;
+  expectedResponseBy?: string;
+  vendorConfirmedAt?: string;
+  confirmationMethod?: "Email" | "Phone" | "Portal" | "Manual";
+  vendorResponse?: string;
 }
 
 const mockPOs: PurchaseOrder[] = [
