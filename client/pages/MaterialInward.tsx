@@ -201,6 +201,11 @@ export default function MaterialInward() {
     setCurrentStep(1);
   };
 
+  const handleViewInwardDetails = (record: typeof mockInwardHistory[0]) => {
+    setSelectedInwardRecord(record);
+    setIsViewInwardModalOpen(true);
+  };
+
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "Completed": return "bg-green-100 text-green-800";
