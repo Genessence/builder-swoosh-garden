@@ -1,9 +1,9 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { 
-  Search, 
-  Bell, 
-  User, 
+import {
+  Search,
+  Bell,
+  User,
   ChevronDown,
   BarChart3,
   FileText,
@@ -12,7 +12,7 @@ import {
   Send,
   PieChart,
   Settings,
-  LogOut
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +48,7 @@ const detailedNotifications = [
     type: "po",
     timestamp: "5 minutes ago",
     priority: "high",
-    unread: true
+    unread: true,
   },
   {
     id: 2,
@@ -57,7 +57,7 @@ const detailedNotifications = [
     type: "quality",
     timestamp: "15 minutes ago",
     priority: "medium",
-    unread: true
+    unread: true,
   },
   {
     id: 3,
@@ -66,7 +66,7 @@ const detailedNotifications = [
     type: "inventory",
     timestamp: "1 hour ago",
     priority: "high",
-    unread: true
+    unread: true,
   },
   {
     id: 4,
@@ -75,7 +75,7 @@ const detailedNotifications = [
     type: "system",
     timestamp: "2 hours ago",
     priority: "low",
-    unread: false
+    unread: false,
   },
   {
     id: 5,
@@ -84,8 +84,8 @@ const detailedNotifications = [
     type: "maintenance",
     timestamp: "3 hours ago",
     priority: "medium",
-    unread: false
-  }
+    unread: false,
+  },
 ];
 
 export default function Layout({ children }: LayoutProps) {
@@ -93,36 +93,46 @@ export default function Layout({ children }: LayoutProps) {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState(detailedNotifications);
 
-  const unreadCount = notifications.filter(n => n.unread).length;
+  const unreadCount = notifications.filter((n) => n.unread).length;
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
-      case "po": return <FileText className="w-4 h-4" />;
-      case "quality": return <Settings className="w-4 h-4" />;
-      case "inventory": return <Package className="w-4 h-4" />;
-      case "system": return <Settings className="w-4 h-4" />;
-      case "maintenance": return <Settings className="w-4 h-4" />;
-      default: return <Bell className="w-4 h-4" />;
+      case "po":
+        return <FileText className="w-4 h-4" />;
+      case "quality":
+        return <Settings className="w-4 h-4" />;
+      case "inventory":
+        return <Package className="w-4 h-4" />;
+      case "system":
+        return <Settings className="w-4 h-4" />;
+      case "maintenance":
+        return <Settings className="w-4 h-4" />;
+      default:
+        return <Bell className="w-4 h-4" />;
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "high": return "border-l-red-500 bg-red-50";
-      case "medium": return "border-l-yellow-500 bg-yellow-50";
-      case "low": return "border-l-green-500 bg-green-50";
-      default: return "border-l-gray-500 bg-gray-50";
+      case "high":
+        return "border-l-red-500 bg-red-50";
+      case "medium":
+        return "border-l-yellow-500 bg-yellow-50";
+      case "low":
+        return "border-l-green-500 bg-green-50";
+      default:
+        return "border-l-gray-500 bg-gray-50";
     }
   };
 
   const markAsRead = (id: number) => {
-    setNotifications(prev =>
-      prev.map(n => n.id === id ? { ...n, unread: false } : n)
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, unread: false } : n)),
     );
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
   };
 
   return (
@@ -134,13 +144,13 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center justify-center h-16 px-6 border-b border-gray-700">
             <h1 className="text-white font-bold text-sm">Cylinder Portal</h1>
           </div>
-          
+
           {/* Navigation */}
           <nav className="flex-1 px-3 py-4 space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
+
               return (
                 <Link
                   key={item.path}
@@ -178,7 +188,10 @@ export default function Layout({ children }: LayoutProps) {
           {/* Right Section */}
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <Popover open={isNotificationOpen} onOpenChange={setIsNotificationOpen}>
+            <Popover
+              open={isNotificationOpen}
+              onOpenChange={setIsNotificationOpen}
+            >
               <PopoverTrigger asChild>
                 <Button variant="ghost" size="sm" className="relative">
                   <Bell className="w-5 h-5" />
@@ -210,9 +223,9 @@ export default function Layout({ children }: LayoutProps) {
                       {notifications.map((notification) => (
                         <div
                           key={notification.id}
-                          className={`p-3 rounded-lg border-l-4 cursor-pointer transition-colors hover:bg-gray-50 ${
-                            getPriorityColor(notification.priority)
-                          } ${notification.unread ? 'bg-opacity-100' : 'bg-opacity-50'}`}
+                          className={`p-3 rounded-lg border-l-4 cursor-pointer transition-colors hover:bg-gray-50 ${getPriorityColor(
+                            notification.priority,
+                          )} ${notification.unread ? "bg-opacity-100" : "bg-opacity-50"}`}
                           onClick={() => markAsRead(notification.id)}
                         >
                           <div className="flex items-start space-x-3">
@@ -221,18 +234,26 @@ export default function Layout({ children }: LayoutProps) {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between">
-                                <p className={`text-sm font-medium truncate ${
-                                  notification.unread ? 'text-gray-900' : 'text-gray-600'
-                                }`}>
+                                <p
+                                  className={`text-sm font-medium truncate ${
+                                    notification.unread
+                                      ? "text-gray-900"
+                                      : "text-gray-600"
+                                  }`}
+                                >
                                   {notification.title}
                                 </p>
                                 {notification.unread && (
                                   <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 ml-2"></div>
                                 )}
                               </div>
-                              <p className={`text-xs mt-1 ${
-                                notification.unread ? 'text-gray-700' : 'text-gray-500'
-                              }`}>
+                              <p
+                                className={`text-xs mt-1 ${
+                                  notification.unread
+                                    ? "text-gray-700"
+                                    : "text-gray-500"
+                                }`}
+                              >
                                 {notification.message}
                               </p>
                               <p className="text-xs text-gray-400 mt-2">
@@ -267,9 +288,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Page Content */}
-        <main className="pt-[60px] p-6">
-          {children}
-        </main>
+        <main className="pt-[60px] p-6">{children}</main>
       </div>
     </div>
   );

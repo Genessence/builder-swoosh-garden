@@ -13,12 +13,12 @@ import {
   CheckCircle,
   X,
   Link,
-  Phone
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -75,7 +75,7 @@ const mockPOs: PurchaseOrder[] = [
     description: "High-pressure CO2 cylinders for production line A",
     vendorEmail: "orders@abcindustrial.com",
     emailSentAt: "2024-01-17T09:30:00",
-    expectedResponseBy: "2024-01-19T17:00:00"
+    expectedResponseBy: "2024-01-19T17:00:00",
   },
   {
     id: "PO-2024-002",
@@ -91,7 +91,7 @@ const mockPOs: PurchaseOrder[] = [
     expectedResponseBy: "2024-01-18T17:00:00",
     vendorConfirmedAt: "2024-01-17T10:15:00",
     confirmationMethod: "Email",
-    vendorResponse: "Order confirmed. Expected delivery: Jan 25th. Thank you!"
+    vendorResponse: "Order confirmed. Expected delivery: Jan 25th. Thank you!",
   },
   {
     id: "PO-2024-003",
@@ -102,7 +102,7 @@ const mockPOs: PurchaseOrder[] = [
     date: "2024-01-13",
     total: 4500,
     description: "Medical grade oxygen cylinders",
-    vendorEmail: "purchasing@industrialair.com"
+    vendorEmail: "purchasing@industrialair.com",
   },
   {
     id: "PO-2024-004",
@@ -118,7 +118,7 @@ const mockPOs: PurchaseOrder[] = [
     expectedResponseBy: "2024-01-16T17:00:00",
     vendorConfirmedAt: "2024-01-15T08:30:00",
     confirmationMethod: "Phone",
-    vendorResponse: "Order confirmed via phone call. Delivered on schedule."
+    vendorResponse: "Order confirmed via phone call. Delivered on schedule.",
   },
   {
     id: "PO-2024-005",
@@ -131,11 +131,11 @@ const mockPOs: PurchaseOrder[] = [
     description: "Cancelled due to quality issues",
     vendorEmail: "orders@premiumgas.com",
     emailSentAt: "2024-01-13T16:45:00",
-    expectedResponseBy: "2024-01-15T17:00:00"
-  }
+    expectedResponseBy: "2024-01-15T17:00:00",
+  },
 ];
 
-const vendors = [...new Set(mockPOs.map(po => po.vendor))];
+const vendors = [...new Set(mockPOs.map((po) => po.vendor))];
 
 export default function POManagement() {
   const [pos, setPOs] = useState<PurchaseOrder[]>(mockPOs);
@@ -149,7 +149,9 @@ export default function POManagement() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [emailSubject, setEmailSubject] = useState("");
   const [emailBody, setEmailBody] = useState("");
-  const [confirmationMethod, setConfirmationMethod] = useState<"Email" | "Phone" | "Portal" | "Manual">("Manual");
+  const [confirmationMethod, setConfirmationMethod] = useState<
+    "Email" | "Phone" | "Portal" | "Manual"
+  >("Manual");
   const [vendorResponse, setVendorResponse] = useState("");
 
   const handleFetchFromSAP = async () => {
@@ -162,24 +164,33 @@ export default function POManagement() {
     }, 2000);
   };
 
-  const filteredPOs = pos.filter(po => {
-    const matchesSearch = po.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         po.vendor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         po.items.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesVendor = !vendorFilter || vendorFilter === "all" || po.vendor === vendorFilter;
-    const matchesStatus = !statusFilter || statusFilter === "all" || po.status === statusFilter;
+  const filteredPOs = pos.filter((po) => {
+    const matchesSearch =
+      po.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      po.vendor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      po.items.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesVendor =
+      !vendorFilter || vendorFilter === "all" || po.vendor === vendorFilter;
+    const matchesStatus =
+      !statusFilter || statusFilter === "all" || po.status === statusFilter;
 
     return matchesSearch && matchesVendor && matchesStatus;
   });
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Draft": return "bg-gray-100 text-gray-800";
-      case "Sent to Vendor": return "bg-blue-100 text-blue-800";
-      case "Confirmed": return "bg-green-100 text-green-800";
-      case "Delivered": return "bg-purple-100 text-purple-800";
-      case "Cancelled": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "Draft":
+        return "bg-gray-100 text-gray-800";
+      case "Sent to Vendor":
+        return "bg-blue-100 text-blue-800";
+      case "Confirmed":
+        return "bg-green-100 text-green-800";
+      case "Delivered":
+        return "bg-purple-100 text-purple-800";
+      case "Cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -232,13 +243,21 @@ Manufacturing Operations Team`);
       ...selectedPO,
       status: "Sent to Vendor" as const,
       emailSentAt: new Date().toISOString(),
-      expectedResponseBy: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString() // 2 days
+      expectedResponseBy: new Date(
+        Date.now() + 2 * 24 * 60 * 60 * 1000,
+      ).toISOString(), // 2 days
     };
 
-    setPOs(prev => prev.map(po => po.id === selectedPO.id ? updatedPO : po));
+    setPOs((prev) =>
+      prev.map((po) => (po.id === selectedPO.id ? updatedPO : po)),
+    );
 
     // In real app, would send email via API
-    console.log("Sending email:", { emailSubject, emailBody, to: selectedPO.vendorEmail });
+    console.log("Sending email:", {
+      emailSubject,
+      emailBody,
+      to: selectedPO.vendorEmail,
+    });
     setIsEmailModalOpen(false);
     setEmailSubject("");
     setEmailBody("");
@@ -271,10 +290,13 @@ Manufacturing Operations Team`);
       status: "Confirmed" as const,
       vendorConfirmedAt: new Date().toISOString(),
       confirmationMethod,
-      vendorResponse: vendorResponse || "Confirmed via " + confirmationMethod.toLowerCase()
+      vendorResponse:
+        vendorResponse || "Confirmed via " + confirmationMethod.toLowerCase(),
     };
 
-    setPOs(prev => prev.map(po => po.id === selectedPO.id ? updatedPO : po));
+    setPOs((prev) =>
+      prev.map((po) => (po.id === selectedPO.id ? updatedPO : po)),
+    );
 
     setIsConfirmModalOpen(false);
     setVendorResponse("");
@@ -287,7 +309,9 @@ Manufacturing Operations Team`);
     const now = new Date();
     const expectedBy = new Date(po.expectedResponseBy);
     const isOverdue = now > expectedBy && po.status === "Sent to Vendor";
-    const hoursRemaining = Math.ceil((expectedBy.getTime() - now.getTime()) / (1000 * 60 * 60));
+    const hoursRemaining = Math.ceil(
+      (expectedBy.getTime() - now.getTime()) / (1000 * 60 * 60),
+    );
 
     return { isOverdue, hoursRemaining };
   };
@@ -298,10 +322,14 @@ Manufacturing Operations Team`);
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-industrial-navy">PO Management</h1>
-            <p className="text-gray-600">Manage purchase orders from SAP and vendor communications</p>
+            <h1 className="text-3xl font-bold text-industrial-navy">
+              PO Management
+            </h1>
+            <p className="text-gray-600">
+              Manage purchase orders from SAP and vendor communications
+            </p>
           </div>
-          <Button 
+          <Button
             onClick={handleFetchFromSAP}
             disabled={isLoading}
             className="bg-industrial-success hover:bg-industrial-success/90"
@@ -331,7 +359,7 @@ Manufacturing Operations Team`);
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label>Vendor</Label>
                 <Select value={vendorFilter} onValueChange={setVendorFilter}>
@@ -340,8 +368,10 @@ Manufacturing Operations Team`);
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All vendors</SelectItem>
-                    {vendors.map(vendor => (
-                      <SelectItem key={vendor} value={vendor}>{vendor}</SelectItem>
+                    {vendors.map((vendor) => (
+                      <SelectItem key={vendor} value={vendor}>
+                        {vendor}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -356,7 +386,9 @@ Manufacturing Operations Team`);
                   <SelectContent>
                     <SelectItem value="all">All statuses</SelectItem>
                     <SelectItem value="Draft">Draft</SelectItem>
-                    <SelectItem value="Sent to Vendor">Sent to Vendor</SelectItem>
+                    <SelectItem value="Sent to Vendor">
+                      Sent to Vendor
+                    </SelectItem>
                     <SelectItem value="Confirmed">Confirmed</SelectItem>
                     <SelectItem value="Delivered">Delivered</SelectItem>
                     <SelectItem value="Cancelled">Cancelled</SelectItem>
@@ -396,9 +428,9 @@ Manufacturing Operations Team`);
                   </TableHeader>
                   <TableBody>
                     {filteredPOs.map((po) => (
-                      <TableRow 
+                      <TableRow
                         key={po.id}
-                        className={`cursor-pointer hover:bg-gray-50 ${selectedPO?.id === po.id ? 'bg-blue-50' : ''}`}
+                        className={`cursor-pointer hover:bg-gray-50 ${selectedPO?.id === po.id ? "bg-blue-50" : ""}`}
                         onClick={() => setSelectedPO(po)}
                       >
                         <TableCell className="font-medium">{po.id}</TableCell>
@@ -410,26 +442,28 @@ Manufacturing Operations Team`);
                             <Badge className={getStatusColor(po.status)}>
                               {po.status}
                             </Badge>
-                            {po.status === "Sent to Vendor" && (() => {
-                              const responseStatus = getResponseStatus(po);
-                              if (responseStatus) {
-                                return (
-                                  <div className={`text-xs px-2 py-1 rounded ${
-                                    responseStatus.isOverdue
-                                      ? 'bg-red-100 text-red-800'
-                                      : responseStatus.hoursRemaining <= 24
-                                        ? 'bg-yellow-100 text-yellow-800'
-                                        : 'bg-green-100 text-green-800'
-                                  }`}>
-                                    {responseStatus.isOverdue
-                                      ? 'Overdue'
-                                      : `${responseStatus.hoursRemaining}h left`
-                                    }
-                                  </div>
-                                );
-                              }
-                              return null;
-                            })()}
+                            {po.status === "Sent to Vendor" &&
+                              (() => {
+                                const responseStatus = getResponseStatus(po);
+                                if (responseStatus) {
+                                  return (
+                                    <div
+                                      className={`text-xs px-2 py-1 rounded ${
+                                        responseStatus.isOverdue
+                                          ? "bg-red-100 text-red-800"
+                                          : responseStatus.hoursRemaining <= 24
+                                            ? "bg-yellow-100 text-yellow-800"
+                                            : "bg-green-100 text-green-800"
+                                      }`}
+                                    >
+                                      {responseStatus.isOverdue
+                                        ? "Overdue"
+                                        : `${responseStatus.hoursRemaining}h left`}
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })()}
                             {po.vendorConfirmedAt && (
                               <div className="text-xs text-green-600">
                                 ✓ Confirmed via {po.confirmationMethod}
@@ -512,12 +546,16 @@ Manufacturing Operations Team`);
                 {selectedPO ? (
                   <div className="space-y-4">
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">PO Number</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        PO Number
+                      </Label>
                       <p className="text-lg font-semibold">{selectedPO.id}</p>
                     </div>
-                    
+
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Vendor</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Vendor
+                      </Label>
                       <p className="flex items-center mt-1">
                         <Building className="w-4 h-4 mr-2 text-gray-400" />
                         {selectedPO.vendor}
@@ -525,7 +563,9 @@ Manufacturing Operations Team`);
                     </div>
 
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Items</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Items
+                      </Label>
                       <p className="flex items-center mt-1">
                         <Package className="w-4 h-4 mr-2 text-gray-400" />
                         {selectedPO.items} (Qty: {selectedPO.quantity})
@@ -533,7 +573,9 @@ Manufacturing Operations Team`);
                     </div>
 
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Status</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Status
+                      </Label>
                       <div className="mt-1">
                         <Badge className={getStatusColor(selectedPO.status)}>
                           {selectedPO.status}
@@ -542,7 +584,9 @@ Manufacturing Operations Team`);
                     </div>
 
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Date</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Date
+                      </Label>
                       <p className="flex items-center mt-1">
                         <Calendar className="w-4 h-4 mr-2 text-gray-400" />
                         {new Date(selectedPO.date).toLocaleDateString()}
@@ -550,19 +594,25 @@ Manufacturing Operations Team`);
                     </div>
 
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Total Amount</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Total Amount
+                      </Label>
                       <p className="text-lg font-semibold text-green-600">
                         ${selectedPO.total.toLocaleString()}
                       </p>
                     </div>
 
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Description</Label>
-                      <p className="text-sm text-gray-700 mt-1">{selectedPO.description}</p>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Description
+                      </Label>
+                      <p className="text-sm text-gray-700 mt-1">
+                        {selectedPO.description}
+                      </p>
                     </div>
 
                     <div className="pt-4 space-y-2">
-                      <Button 
+                      <Button
                         className="w-full bg-industrial-warning hover:bg-industrial-warning/90"
                         onClick={() => handleEmailVendor(selectedPO)}
                       >
@@ -595,29 +645,29 @@ Manufacturing Operations Team`);
                 Send confirmation email to {selectedPO?.vendor}
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-4">
               <div>
                 <Label>To</Label>
-                <Input 
-                  value={selectedPO?.vendorEmail || ""} 
-                  disabled 
+                <Input
+                  value={selectedPO?.vendorEmail || ""}
+                  disabled
                   className="bg-gray-50"
                 />
               </div>
-              
+
               <div>
                 <Label>Subject</Label>
-                <Input 
+                <Input
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="Email subject"
                 />
               </div>
-              
+
               <div>
                 <Label>Message</Label>
-                <Textarea 
+                <Textarea
                   value={emailBody}
                   onChange={(e) => setEmailBody(e.target.value)}
                   placeholder="Email body"
@@ -627,11 +677,17 @@ Manufacturing Operations Team`);
             </div>
 
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEmailModalOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setIsEmailModalOpen(false)}
+              >
                 <X className="w-4 h-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSendEmail} className="bg-industrial-success hover:bg-industrial-success/90">
+              <Button
+                onClick={handleSendEmail}
+                className="bg-industrial-success hover:bg-industrial-success/90"
+              >
                 <Mail className="w-4 h-4 mr-2" />
                 Send Email
               </Button>
@@ -658,18 +714,24 @@ Manufacturing Operations Team`);
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">PO Number</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        PO Number
+                      </Label>
                       <p className="text-lg font-semibold">{selectedPO.id}</p>
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Vendor</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Vendor
+                      </Label>
                       <p className="flex items-center mt-1">
                         <Building className="w-4 h-4 mr-2 text-gray-400" />
                         {selectedPO.vendor}
                       </p>
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Items</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Items
+                      </Label>
                       <p className="flex items-center mt-1">
                         <Package className="w-4 h-4 mr-2 text-gray-400" />
                         {selectedPO.items}
@@ -679,7 +741,9 @@ Manufacturing Operations Team`);
 
                   <div className="space-y-4">
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Status</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Status
+                      </Label>
                       <div className="mt-1">
                         <Badge className={getStatusColor(selectedPO.status)}>
                           {selectedPO.status}
@@ -687,11 +751,17 @@ Manufacturing Operations Team`);
                       </div>
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Quantity</Label>
-                      <p className="text-lg font-semibold">{selectedPO.quantity}</p>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Quantity
+                      </Label>
+                      <p className="text-lg font-semibold">
+                        {selectedPO.quantity}
+                      </p>
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-gray-500">Total Amount</Label>
+                      <Label className="text-sm font-medium text-gray-500">
+                        Total Amount
+                      </Label>
                       <p className="text-lg font-semibold text-green-600">
                         ${selectedPO.total.toLocaleString()}
                       </p>
@@ -702,27 +772,33 @@ Manufacturing Operations Team`);
                 {/* Additional Details */}
                 <div className="border-t pt-4 space-y-4">
                   <div>
-                    <Label className="text-sm font-medium text-gray-500">Order Date</Label>
+                    <Label className="text-sm font-medium text-gray-500">
+                      Order Date
+                    </Label>
                     <p className="flex items-center mt-1">
                       <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-                      {new Date(selectedPO.date).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                      {new Date(selectedPO.date).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                       })}
                     </p>
                   </div>
 
                   <div>
-                    <Label className="text-sm font-medium text-gray-500">Description</Label>
+                    <Label className="text-sm font-medium text-gray-500">
+                      Description
+                    </Label>
                     <p className="text-sm text-gray-700 mt-1 p-3 bg-gray-50 rounded-lg">
                       {selectedPO.description}
                     </p>
                   </div>
 
                   <div>
-                    <Label className="text-sm font-medium text-gray-500">Vendor Contact</Label>
+                    <Label className="text-sm font-medium text-gray-500">
+                      Vendor Contact
+                    </Label>
                     <p className="text-sm text-gray-700 mt-1">
                       <Mail className="w-4 h-4 inline mr-2 text-gray-400" />
                       {selectedPO.vendorEmail}
@@ -732,11 +808,15 @@ Manufacturing Operations Team`);
 
                 {/* Timeline Information */}
                 <div className="border-t pt-4">
-                  <Label className="text-sm font-medium text-gray-500">Timeline</Label>
+                  <Label className="text-sm font-medium text-gray-500">
+                    Timeline
+                  </Label>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
                       <span className="text-sm">Order Created</span>
-                      <span className="text-sm font-medium">{new Date(selectedPO.date).toLocaleDateString()}</span>
+                      <span className="text-sm font-medium">
+                        {new Date(selectedPO.date).toLocaleDateString()}
+                      </span>
                     </div>
                     {selectedPO.status === "Delivered" && (
                       <div className="flex justify-between items-center p-2 bg-green-50 rounded">
@@ -748,7 +828,9 @@ Manufacturing Operations Team`);
                       <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
                         <span className="text-sm">Expected Delivery</span>
                         <span className="text-sm font-medium">
-                          {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                          {new Date(
+                            Date.now() + 7 * 24 * 60 * 60 * 1000,
+                          ).toLocaleDateString()}
                         </span>
                       </div>
                     )}
@@ -758,7 +840,10 @@ Manufacturing Operations Team`);
             )}
 
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsViewModalOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setIsViewModalOpen(false)}
+              >
                 Close
               </Button>
               <Button
@@ -791,7 +876,10 @@ Manufacturing Operations Team`);
             <div className="space-y-4">
               <div>
                 <Label>Confirmation Method</Label>
-                <Select value={confirmationMethod} onValueChange={(value: any) => setConfirmationMethod(value)}>
+                <Select
+                  value={confirmationMethod}
+                  onValueChange={(value: any) => setConfirmationMethod(value)}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -816,10 +904,16 @@ Manufacturing Operations Team`);
 
               {selectedPO && (
                 <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                  <h4 className="font-medium text-green-800 mb-2">Confirming:</h4>
+                  <h4 className="font-medium text-green-800 mb-2">
+                    Confirming:
+                  </h4>
                   <div className="text-sm text-green-700">
-                    <p><strong>{selectedPO.id}</strong> - {selectedPO.vendor}</p>
-                    <p>{selectedPO.items} (Qty: {selectedPO.quantity})</p>
+                    <p>
+                      <strong>{selectedPO.id}</strong> - {selectedPO.vendor}
+                    </p>
+                    <p>
+                      {selectedPO.items} (Qty: {selectedPO.quantity})
+                    </p>
                     <p>Amount: ${selectedPO.total.toLocaleString()}</p>
                   </div>
                 </div>
@@ -827,10 +921,16 @@ Manufacturing Operations Team`);
             </div>
 
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsConfirmModalOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setIsConfirmModalOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleVendorConfirmation} className="bg-industrial-success hover:bg-industrial-success/90">
+              <Button
+                onClick={handleVendorConfirmation}
+                className="bg-industrial-success hover:bg-industrial-success/90"
+              >
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Confirm Order
               </Button>
