@@ -22,6 +22,7 @@ import {
   Send,
   Clock,
   TrendingUp,
+  RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -130,7 +131,23 @@ const weeklyNotificationTrend = [
   { day: "Sun", alerts: 3, resolved: 3 },
 ];
 
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFetchFromSAP = async () => {
+    setIsLoading(true);
+    // Simulate SAP fetch delay
+    setTimeout(() => {
+      setIsLoading(false);
+      // In real app, would fetch new POs from SAP
+      console.log("Fetched new POs from SAP");
+    }, 2000);
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
@@ -145,11 +162,19 @@ export default function Dashboard() {
             </p>
           </div>
           <div className="flex space-x-3">
-            <Button className="bg-industrial-success hover:bg-industrial-success/90">
-              <Download className="w-4 h-4 mr-2" />
-              Fetch New POs
-            </Button>
-            <Button className="bg-industrial-warning hover:bg-industrial-warning/90">
+            <Button
+                onClick={handleFetchFromSAP}
+                disabled={isLoading}
+                className="bg-industrial-success hover:bg-industrial-success/90"
+              >
+                {isLoading ? (
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4 mr-2" />
+                )}
+                Fetch from SAP
+              </Button>
+            <Button className="bg-industrial-warning hover:bg-industrial-warning/90" onClick={() => {navigate("/cylinder-issue")}}>
               <Send className="w-4 h-4 mr-2" />
               Issue Cylinders
             </Button>
