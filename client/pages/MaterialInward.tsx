@@ -648,6 +648,192 @@ export default function MaterialInward() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {/* View Inward Details Modal */}
+        <Dialog open={isViewInwardModalOpen} onOpenChange={setIsViewInwardModalOpen}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center">
+                <Truck className="w-5 h-5 mr-2" />
+                Material Inward Details
+              </DialogTitle>
+              <DialogDescription>
+                Complete information for {selectedInwardRecord?.id}
+              </DialogDescription>
+            </DialogHeader>
+
+            {selectedInwardRecord && (
+              <div className="space-y-6">
+                {/* Basic Information */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Shipment ID</Label>
+                      <p className="text-lg font-semibold">{selectedInwardRecord.id}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Vendor</Label>
+                      <p className="flex items-center mt-1">
+                        <Building className="w-4 h-4 mr-2 text-gray-400" />
+                        {selectedInwardRecord.vendor}
+                      </p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Items</Label>
+                      <p className="flex items-center mt-1">
+                        <Package className="w-4 h-4 mr-2 text-gray-400" />
+                        {selectedInwardRecord.items}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Status</Label>
+                      <div className="mt-1">
+                        <Badge className={getStatusBadgeColor(selectedInwardRecord.status)}>
+                          {selectedInwardRecord.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">Weight</Label>
+                      <p className="text-lg font-semibold">{selectedInwardRecord.weight}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-gray-500">PO Number</Label>
+                      <p className="text-lg font-semibold text-blue-600">
+                        {selectedInwardRecord.poNumber}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Timeline and Process Information */}
+                <div className="border-t pt-4 space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Inward Date</Label>
+                    <p className="flex items-center mt-1">
+                      <Calendar className="w-4 h-4 mr-2 text-gray-400" />
+                      {new Date(selectedInwardRecord.date).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
+
+                  {/* Process Steps */}
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Process Status</Label>
+                    <div className="mt-2 space-y-2">
+                      <div className={`flex justify-between items-center p-2 rounded ${
+                        selectedInwardRecord.status === "Completed" ? "bg-green-50" : "bg-gray-50"
+                      }`}>
+                        <span className="text-sm flex items-center">
+                          <Truck className="w-4 h-4 mr-2" />
+                          Truck Arrival & Weighing
+                        </span>
+                        <span className={`text-sm font-medium ${
+                          selectedInwardRecord.status === "Completed" ? "text-green-600" : "text-gray-600"
+                        }`}>
+                          {selectedInwardRecord.status === "Completed" ? "✓ Completed" : "Pending"}
+                        </span>
+                      </div>
+                      <div className={`flex justify-between items-center p-2 rounded ${
+                        selectedInwardRecord.status === "Completed" ? "bg-green-50" : "bg-gray-50"
+                      }`}>
+                        <span className="text-sm flex items-center">
+                          <FileCheck className="w-4 h-4 mr-2" />
+                          PO/Invoice Verification
+                        </span>
+                        <span className={`text-sm font-medium ${
+                          selectedInwardRecord.status === "Completed" ? "text-green-600" : "text-gray-600"
+                        }`}>
+                          {selectedInwardRecord.status === "Completed" ? "✓ Verified" : "Pending"}
+                        </span>
+                      </div>
+                      <div className={`flex justify-between items-center p-2 rounded ${
+                        selectedInwardRecord.status === "Completed" ? "bg-green-50" : "bg-gray-50"
+                      }`}>
+                        <span className="text-sm flex items-center">
+                          <ClipboardCheck className="w-4 h-4 mr-2" />
+                          Quality Inspection
+                        </span>
+                        <span className={`text-sm font-medium ${
+                          selectedInwardRecord.status === "Completed" ? "text-green-600" : "text-gray-600"
+                        }`}>
+                          {selectedInwardRecord.status === "Completed" ? "✓ Passed" : "Pending"}
+                        </span>
+                      </div>
+                      <div className={`flex justify-between items-center p-2 rounded ${
+                        selectedInwardRecord.status === "Completed" ? "bg-green-50" : "bg-gray-50"
+                      }`}>
+                        <span className="text-sm flex items-center">
+                          <Zap className="w-4 h-4 mr-2" />
+                          RFID Tagging
+                        </span>
+                        <span className={`text-sm font-medium ${
+                          selectedInwardRecord.status === "Completed" ? "text-green-600" : "text-gray-600"
+                        }`}>
+                          {selectedInwardRecord.status === "Completed" ? "✓ Tagged" : "Pending"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Additional Information */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 className="font-semibold text-blue-800 mb-2">Summary</h3>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-gray-600">Processing Time:</span>
+                        <p className="font-medium">
+                          {selectedInwardRecord.status === "Completed" ? "2.5 hours" : "In Progress"}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Quality Score:</span>
+                        <p className="font-medium text-green-600">
+                          {selectedInwardRecord.status === "Completed" ? "100% Pass" : "Pending"}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">RFID Tags Assigned:</span>
+                        <p className="font-medium">
+                          {selectedInwardRecord.status === "Completed" ?
+                            selectedInwardRecord.items.split(' ')[0] : "Pending"
+                          }
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-gray-600">Next Action:</span>
+                        <p className="font-medium">
+                          {selectedInwardRecord.status === "Completed" ?
+                            "Ready for Issue" : "Complete Inward Process"
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsViewInwardModalOpen(false)}>
+                Close
+              </Button>
+              {selectedInwardRecord?.status === "In Progress" && (
+                <Button className="bg-industrial-warning hover:bg-industrial-warning/90">
+                  <FileCheck className="w-4 h-4 mr-2" />
+                  Continue Process
+                </Button>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
