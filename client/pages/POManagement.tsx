@@ -409,7 +409,7 @@ Manufacturing Operations Team`);
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <div className="flex space-x-2">
+                          <div className="flex space-x-1">
                             <Button
                               size="sm"
                               variant="ghost"
@@ -420,8 +420,8 @@ Manufacturing Operations Team`);
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="ghost"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -431,6 +431,32 @@ Manufacturing Operations Team`);
                             >
                               <Mail className="w-4 h-4" />
                             </Button>
+                            {po.status === "Sent to Vendor" && (
+                              <>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleManualConfirm(po);
+                                  }}
+                                  className="text-green-600 hover:text-green-700"
+                                >
+                                  <CheckCircle className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleGeneratePortalLink(po);
+                                  }}
+                                  className="text-blue-600 hover:text-blue-700"
+                                >
+                                  <Package className="w-4 h-4" />
+                                </Button>
+                              </>
+                            )}
                           </div>
                         </TableCell>
                       </TableRow>
