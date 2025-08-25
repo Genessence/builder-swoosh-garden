@@ -32,6 +32,55 @@ const navItems = [
   { path: "/settings", label: "Settings", icon: Settings },
 ];
 
+// Detailed notifications for bell icon dropdown
+const detailedNotifications = [
+  {
+    id: 1,
+    title: "New PO Requires Confirmation",
+    message: "PO #PO-2024-002 from XYZ Gas Solutions needs vendor confirmation",
+    type: "po",
+    timestamp: "5 minutes ago",
+    priority: "high",
+    unread: true
+  },
+  {
+    id: 2,
+    title: "Quality Inspection Pending",
+    message: "Shipment #SI-002 waiting for quality inspection completion",
+    type: "quality",
+    timestamp: "15 minutes ago",
+    priority: "medium",
+    unread: true
+  },
+  {
+    id: 3,
+    title: "Low Stock Alert",
+    message: "Argon cylinder inventory below threshold (8 remaining)",
+    type: "inventory",
+    timestamp: "1 hour ago",
+    priority: "high",
+    unread: true
+  },
+  {
+    id: 4,
+    title: "SAP System Connected",
+    message: "Successfully established connection with SAP server",
+    type: "system",
+    timestamp: "2 hours ago",
+    priority: "low",
+    unread: false
+  },
+  {
+    id: 5,
+    title: "Maintenance Scheduled",
+    message: "System maintenance scheduled for tonight at 2:00 AM",
+    type: "maintenance",
+    timestamp: "3 hours ago",
+    priority: "medium",
+    unread: false
+  }
+];
+
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
 
