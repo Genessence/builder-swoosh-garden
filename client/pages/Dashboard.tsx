@@ -99,10 +99,23 @@ const recentActivity = [
   }
 ];
 
-const notifications = [
-  "New PO #PO-2024-002 requires vendor confirmation",
-  "Quality inspection pending for Shipment #SI-002", 
-  "Inventory threshold reached for Argon cylinders"
+// Notification analytics data for chart
+const notificationAnalytics = [
+  { category: "PO Alerts", count: 5, color: "#3B82F6" },
+  { category: "Low Stock", count: 3, color: "#DC3545" },
+  { category: "Quality Issues", count: 2, color: "#FD7E14" },
+  { category: "System Updates", count: 4, color: "#28A745" },
+  { category: "Maintenance", count: 1, color: "#6C757D" }
+];
+
+const weeklyNotificationTrend = [
+  { day: "Mon", alerts: 8, resolved: 6 },
+  { day: "Tue", alerts: 12, resolved: 10 },
+  { day: "Wed", alerts: 6, resolved: 8 },
+  { day: "Thu", alerts: 15, resolved: 12 },
+  { day: "Fri", alerts: 10, resolved: 9 },
+  { day: "Sat", alerts: 4, resolved: 4 },
+  { day: "Sun", alerts: 3, resolved: 3 }
 ];
 
 export default function Dashboard() {
