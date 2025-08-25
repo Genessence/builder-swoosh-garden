@@ -140,12 +140,15 @@ export default function POManagement() {
   const [selectedPO, setSelectedPO] = useState<PurchaseOrder | null>(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [vendorFilter, setVendorFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [emailSubject, setEmailSubject] = useState("");
   const [emailBody, setEmailBody] = useState("");
+  const [confirmationMethod, setConfirmationMethod] = useState<"Email" | "Phone" | "Portal" | "Manual">("Manual");
+  const [vendorResponse, setVendorResponse] = useState("");
 
   const handleFetchFromSAP = async () => {
     setIsLoading(true);
